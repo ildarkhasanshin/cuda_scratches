@@ -18,7 +18,7 @@ def convert_size(size_bytes):
     s = round(size_bytes / p, 2)
     return str("%s %s" % (s, size_name[i]))
 
-def getFilesList(self):
+def get_files_list(self):
     items = sorted([os.path.join(path, i) for i in os.listdir(path)], key = os.path.getmtime, reverse = True)
     items_ = ''
     for item in items:
@@ -60,12 +60,12 @@ class Command:
             raise
         
     def list(self):
-        items, items_ = getFilesList(self)
+        items, items_ = get_files_list(self)
         res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
         file_open(items[res])
     
     def remove(self):
-        items, items_ = getFilesList(self)
+        items, items_ = get_files_list(self)
         res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
         res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
         if res_ == ID_YES:
