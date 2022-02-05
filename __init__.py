@@ -27,8 +27,8 @@ def get_files_list(self):
             preview = f.readline()
             for i in range(4):
                 preview = preview + ' ' + f.readline()
-        preview = preview.replace("\n", '')
-        items_ = items_ + item.replace(path, '') + ' | ' + dt.fromtimestamp(getctime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
+        preview = preview.replace("\n", '', 5)
+        items_ = items_ + item.replace(path, '', 1) + ' | ' + dt.fromtimestamp(getctime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
     
     return items, items_
 
@@ -73,4 +73,4 @@ class Command:
                 os.remove(items[res])
             except OSError:
                 pass
-            msg_box(items[res].replace(path, '') + ' removed!', MB_OK)
+            msg_box(items[res].replace(path, '', 1) + ' removed!', MB_OK)
