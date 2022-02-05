@@ -3,6 +3,7 @@ title=cuda_scratches
 desc=Lite-analog of Scratches from JetBrains (C)
 type=cudatext-plugin
 subdir=cuda_scratches
+homepage=https://github.com/ildarkhasanshin/cuda_scratches
 
 [item1]
 section=commands
