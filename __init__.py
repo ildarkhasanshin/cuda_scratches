@@ -33,7 +33,7 @@ def getFilesList(self):
     return items, items_
 
 class Command:
-    def run1(self):
+    def new(self):
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
         items.insert(0, 'PLAIN TEXT')
         res = dlg_menu(DMENU_LIST, items, 0, 'New scratch')
@@ -59,12 +59,12 @@ class Command:
             msg_box("OS error: {0}".format(err), MB_OK)
             raise
         
-    def run2(self):
+    def list(self):
         items, items_ = getFilesList(self)
         res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
         file_open(items[res])
     
-    def run3(self):
+    def remove(self):
         items, items_ = getFilesList(self)
         res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
         res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)

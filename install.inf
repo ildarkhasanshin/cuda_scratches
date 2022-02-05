@@ -7,14 +7,14 @@ subdir=cuda_scratches
 [item1]
 section=commands
 caption=&Scratches\&New
-method=run1
+method=new
 
 [item2]
 section=commands
 caption=&Scratches\&List
-method=run2
+method=list
 
 [item3]
 section=commands
 caption=&Scratches\&Remove
-method=run3
+method=remove
