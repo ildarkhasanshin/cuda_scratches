@@ -69,8 +69,11 @@ class Command:
 
     def list(self):
         items, items_ = get_files_list(self)
-        res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
-        file_open(items[res])
+        if (len(items) > 0):
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
+            file_open(items[res])
+        else:
+            msg_status('No scratches found')
 
     def remove(self):
         items, items_ = get_files_list(self)
