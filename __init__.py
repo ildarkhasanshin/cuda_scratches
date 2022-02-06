@@ -6,7 +6,7 @@ import cudatext as ct
 from os.path import getctime
 from datetime import datetime as dt
 
-path = app_path(APP_DIR_PY) + '/cuda_scratches/scratches/'
+PATH = os.path.join(app_path(APP_DIR_DATA), 'scratches/')
 
 def convert_size(size_bytes):
     size_bytes = int(size_bytes)
@@ -19,7 +19,7 @@ def convert_size(size_bytes):
     return str("%s %s" % (s, size_name[i]))
 
 def get_files_list(self):
-    items = sorted([os.path.join(path, i) for i in os.listdir(path)], key = os.path.getmtime, reverse = True)
+    items = sorted([os.path.join(PATH, i) for i in os.listdir(PATH)], key = os.path.getmtime, reverse = True)
     items_ = ''
     for item in items:
         preview = ''
@@ -28,11 +28,19 @@ def get_files_list(self):
             for i in range(4):
                 preview = preview + ' ' + f.readline()
         preview = preview.replace("\n", '', 5)
-        items_ = items_ + item.replace(path, '', 1) + ' | ' + dt.fromtimestamp(getctime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
+        items_ = items_ + item.replace(PATH, '', 1) + ' | ' + dt.fromtimestamp(getctime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
     
     return items, items_
 
 class Command:
+    def __init__(self):
+        if (os.path.exists(PATH) == False):
+            try:
+                os.mkdir(PATH)
+            except OSError as err:
+                msg_box("OS error: {0}".format(err), MB_OK)
+                raise
+    
     def new(self):
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
         items.insert(0, 'PLAIN TEXT')
@@ -44,7 +52,7 @@ class Command:
             ext = prop.get('typ')[0]
         
         def getFname(i):
-            return path + 'scratch_' + str(i) + '.' + ext
+            return PATH + 'scratch_' + str(i) + '.' + ext
         
         i = 1
         fname = getFname(i)
@@ -73,4 +81,4 @@ class Command:
                 os.remove(items[res])
             except OSError:
                 pass
-            msg_box(items[res].replace(path, '', 1) + ' removed!', MB_OK)
+            msg_box(items[res].replace(PATH, '', 1) + ' removed!', MB_OK)
