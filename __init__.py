@@ -6,7 +6,7 @@ import cudatext as ct
 from os.path import getctime
 from datetime import datetime as dt
 
-PATH = os.path.join(app_path(APP_DIR_DATA), 'scratches/')
+PATH = os.path.join(app_path(APP_DIR_DATA), 'scratches') + os.sep
 
 def convert_size(size_bytes):
     size_bytes = int(size_bytes)
