@@ -45,12 +45,14 @@ class Command:
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
         items.insert(0, 'PLAIN TEXT')
         res = dlg_menu(DMENU_LIST, items, 0, 'New scratch')
-        if (res != None):
-            prop = ct.lexer_proc(ct.LEXER_GET_PROP, items[res])
-            if (res == 0):
-                ext = 'txt'
-            else:
-                ext = prop.get('typ')[0]
+        if (res == None):
+            return
+        
+        prop = ct.lexer_proc(ct.LEXER_GET_PROP, items[res])
+        if (res == 0):
+            ext = 'txt'
+        else:
+            ext = prop.get('typ')[0]
 
         def getFname(i):
             return PATH + 'scratch_' + str(i) + '.' + ext
