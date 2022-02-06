@@ -38,7 +38,7 @@ class Command:
             try:
                 os.mkdir(PATH)
             except OSError as err:
-                msg_box("OS error: {0}".format(err), MB_OK)
+                msg_box("Cannot create dir 'data/scratches', OS error: {0}".format(err), MB_OK+MB_ICONERROR)
                 raise
     
     def new(self):
