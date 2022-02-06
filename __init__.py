@@ -34,7 +34,7 @@ def get_files_list(self):
 
 class Command:
     def __init__(self):
-        if (os.path.exists(PATH) == False):
+        if (not os.path.exists(PATH)):
             try:
                 os.mkdir(PATH)
             except OSError as err:
@@ -56,7 +56,7 @@ class Command:
 
         i = 1
         fname = getFname(i)
-        while (os.path.exists(fname) == True):
+        while (os.path.exists(fname)):
             i = i + 1
             fname = getFname(i)
 
