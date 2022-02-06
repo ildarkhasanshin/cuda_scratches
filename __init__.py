@@ -45,11 +45,12 @@ class Command:
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
         items.insert(0, 'PLAIN TEXT')
         res = dlg_menu(DMENU_LIST, items, 0, 'New scratch')
-        prop = ct.lexer_proc(ct.LEXER_GET_PROP, items[res])
-        if (res == 0):
-            ext = 'txt'
-        else:
-            ext = prop.get('typ')[0]
+        if (res != None):
+            prop = ct.lexer_proc(ct.LEXER_GET_PROP, items[res])
+            if (res == 0):
+                ext = 'txt'
+            else:
+                ext = prop.get('typ')[0]
 
         def getFname(i):
             return PATH + 'scratch_' + str(i) + '.' + ext
@@ -71,7 +72,8 @@ class Command:
         items, items_ = get_files_list(self)
         if (len(items) > 0):
             res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
-            file_open(items[res])
+            if (res != None):
+                file_open(items[res])
         else:
             msg_status('No scratches found')
 
@@ -79,12 +81,13 @@ class Command:
         items, items_ = get_files_list(self)
         if (len(items) > 0):
             res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
-            res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
-            if res_ == ID_YES:
-                try:
-                    os.remove(items[res])
-                    msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
-                except:
-                    msg_status('Cannot delete: ' + os.path.basename(items[res]))
+            if (res != None):
+                res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
+                if res_ == ID_YES:
+                    try:
+                        os.remove(items[res])
+                        msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
+                    except:
+                        msg_status('Cannot delete: ' + os.path.basename(items[res]))
         else:
             msg_status('No scratches found')
