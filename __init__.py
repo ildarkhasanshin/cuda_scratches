@@ -29,7 +29,7 @@ def get_files_list(self):
                 preview = preview + ' ' + f.readline()
         preview = preview.replace("\n", '', 5)
         items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(getctime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
-    
+
     return items, items_
 
 class Command:
@@ -40,7 +40,7 @@ class Command:
             except OSError as err:
                 msg_box("Cannot create dir 'data/scratches', OS error: {0}".format(err), MB_OK+MB_ICONERROR)
                 raise
-    
+
     def new(self):
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
         items.insert(0, 'PLAIN TEXT')
@@ -50,28 +50,28 @@ class Command:
             ext = 'txt'
         else:
             ext = prop.get('typ')[0]
-        
+
         def getFname(i):
             return PATH + 'scratch_' + str(i) + '.' + ext
-        
+
         i = 1
         fname = getFname(i)
         while (os.path.exists(fname) == True):
             i = i + 1
             fname = getFname(i)
-        
+
         try:
             ff = open(fname, 'w')
             file_open(fname)
         except OSError as err:
             msg_box("OS error: {0}".format(err), MB_OK)
             raise
-        
+
     def list(self):
         items, items_ = get_files_list(self)
         res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
         file_open(items[res])
-    
+
     def remove(self):
         items, items_ = get_files_list(self)
         res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
@@ -79,6 +79,6 @@ class Command:
         if res_ == ID_YES:
             try:
                 os.remove(items[res])
-            except OSError:
-                pass
-            msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
+                msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
+            except:
+                msg_status('Cannot delete: ' + os.path.basename(items[res]))
