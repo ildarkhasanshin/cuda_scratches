@@ -77,11 +77,14 @@ class Command:
 
     def remove(self):
         items, items_ = get_files_list(self)
-        res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
-        res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
-        if res_ == ID_YES:
-            try:
-                os.remove(items[res])
-                msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
-            except:
-                msg_status('Cannot delete: ' + os.path.basename(items[res]))
+        if (len(items) > 0):
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
+            res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
+            if res_ == ID_YES:
+                try:
+                    os.remove(items[res])
+                    msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
+                except:
+                    msg_status('Cannot delete: ' + os.path.basename(items[res]))
+        else:
+            msg_status('No scratches found')
