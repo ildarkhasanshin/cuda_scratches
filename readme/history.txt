@@ -1,3 +1,6 @@
+2022.04.21
+dynamic window of results
+
 2022.02.06
 some fixes
 
