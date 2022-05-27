@@ -44,10 +44,10 @@ class Command:
     def get_w_h(self):
         w_ = 600
         h_ = 600
-        screen_sizes = app_proc(PROC_COORD_MONITOR, 0)
-        if screen_sizes:
-            w_ = round(screen_sizes[2] / 2)
-            h_ = round(screen_sizes[3] / 3)
+        r = app_proc(PROC_COORD_MONITOR, 0)
+        if r:
+            w_ = (r[2]-r[0]) // 2
+            h_ = (r[3]-r[1]) // 3
 
         return w_, h_
 
@@ -83,7 +83,8 @@ class Command:
     def list(self):
         items, items_ = get_files_list(self)
         if (len(items) > 0):
-            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT, self.get_w_h()[0], self.get_w_h()[1])
+            w, h = self.get_w_h()
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', clip=CLIP_RIGHT, w=w, h=h)
             if (res != None):
                 file_open(items[res])
         else:
