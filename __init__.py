@@ -6,6 +6,9 @@ import cudatext as ct
 from os.path import getctime
 from datetime import datetime as dt
 
+from cudax_lib import get_translation
+_ = get_translation(__file__)  # I18N
+
 PATH = os.path.join(app_path(APP_DIR_DATA), 'scratches') + os.sep
 
 def convert_size(size_bytes):
@@ -44,22 +47,22 @@ class Command:
     def get_w_h(self):
         w_ = 600
         h_ = 600
-        screen_sizes = app_proc(PROC_COORD_MONITOR, 0)
-        if screen_sizes:
-            w_ = round(screen_sizes[2] / 2)
-            h_ = round(screen_sizes[3] / 3)
+        r = app_proc(PROC_COORD_MONITOR, 0)
+        if r:
+            w_ = (r[2]-r[0]) // 2
+            h_ = (r[3]-r[1]) // 3
 
         return w_, h_
 
     def new(self):
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
-        items.insert(0, 'PLAIN TEXT')
-        res = dlg_menu(DMENU_LIST, items, 0, 'New scratch')
-        if (res == None):
+        items.insert(0, _('PLAIN TEXT'))
+        res = dlg_menu(DMENU_LIST, items, 0, _('New scratch'))
+        if res is None:
             return
 
         prop = ct.lexer_proc(ct.LEXER_GET_PROP, items[res])
-        if (res == 0):
+        if res == 0:
             ext = 'txt'
         else:
             ext = prop.get('typ')[0]
@@ -82,24 +85,26 @@ class Command:
 
     def list(self):
         items, items_ = get_files_list(self)
-        if (len(items) > 0):
-            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT, self.get_w_h()[0], self.get_w_h()[1])
-            if (res != None):
+        if len(items) > 0:
+            w, h = self.get_w_h()
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, _('List of scratches'), clip=CLIP_RIGHT, w=w, h=h)
+            if res is not None:
                 file_open(items[res])
         else:
-            msg_status('No scratches found')
+            msg_status(_('No scratches found'))
 
     def remove(self):
         items, items_ = get_files_list(self)
-        if (len(items) > 0):
-            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT, self.get_w_h()[0], self.get_w_h()[1])
-            if (res != None):
-                res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
+        if len(items) > 0:
+            w, h = self.get_w_h()
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, _('Remove scratch'), clip=CLIP_RIGHT, w=w, h=h)
+            if res is not None:
+                res_ = msg_box(_('Do you really want to remove scratch?'), MB_YESNO+MB_ICONQUESTION)
                 if res_ == ID_YES:
                     try:
                         os.remove(items[res])
-                        msg_box('Removed scratch: ' + os.path.basename(items[res]), MB_OK)
+                        msg_box(_('Removed scratch: ') + os.path.basename(items[res]), MB_OK)
                     except:
-                        msg_status('Cannot delete: ' + os.path.basename(items[res]))
+                        msg_status(_('Cannot delete: ') + os.path.basename(items[res]))
         else:
-            msg_status('No scratches found')
+            msg_status(_('No scratches found'))
