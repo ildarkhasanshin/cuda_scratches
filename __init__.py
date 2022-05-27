@@ -41,13 +41,23 @@ class Command:
                 msg_box("Cannot create dir 'data/scratches', OS error: {0}".format(err), MB_OK+MB_ICONERROR)
                 raise
 
+    def get_w_h(self):
+        w_ = 600
+        h_ = 600
+        screen_sizes = app_proc(PROC_COORD_MONITOR, 0)
+        if screen_sizes:
+            w_ = round(screen_sizes[2] / 2)
+            h_ = round(screen_sizes[3] / 3)
+
+        return w_, h_
+
     def new(self):
         items = ct.lexer_proc(ct.LEXER_GET_LEXERS, False)
         items.insert(0, 'PLAIN TEXT')
         res = dlg_menu(DMENU_LIST, items, 0, 'New scratch')
         if (res == None):
             return
-        
+
         prop = ct.lexer_proc(ct.LEXER_GET_PROP, items[res])
         if (res == 0):
             ext = 'txt'
@@ -73,7 +83,7 @@ class Command:
     def list(self):
         items, items_ = get_files_list(self)
         if (len(items) > 0):
-            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT)
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'List of scratches', CLIP_RIGHT, self.get_w_h()[0], self.get_w_h()[1])
             if (res != None):
                 file_open(items[res])
         else:
@@ -82,7 +92,7 @@ class Command:
     def remove(self):
         items, items_ = get_files_list(self)
         if (len(items) > 0):
-            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT)
+            res = dlg_menu(DMENU_LIST_ALT, items_, 0, 'Remove scratch', CLIP_RIGHT, self.get_w_h()[0], self.get_w_h()[1])
             if (res != None):
                 res_ = msg_box('Do you really want to remove scratch?', MB_YESNO+MB_ICONQUESTION)
                 if res_ == ID_YES:
