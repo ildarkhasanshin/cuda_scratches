@@ -1,6 +1,9 @@
 
+2022.06.01
+- fix: must skip all folders in the 'data/scratches' folder (by Alexey T.)
+
 2022.05.27
-+ add: i18n
++ add: i18n (by Alexey T.)
 
 2022.04.21
 + add: dynamic window of results

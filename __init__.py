@@ -23,10 +23,11 @@ def convert_size(size_bytes):
 
 def get_files_list(self):
     items = sorted([os.path.join(PATH, i) for i in os.listdir(PATH)], key = os.path.getmtime, reverse = True)
+    items = [i for i in items if os.path.isfile(i)]
     items_ = ''
     for item in items:
         preview = ''
-        with open(item, 'r') as f:
+        with open(item, 'r', encoding='utf-8') as f:
             preview = f.readline()
             for i in range(4):
                 preview = preview + ' ' + f.readline()
@@ -77,7 +78,7 @@ class Command:
             fname = getFname(i)
 
         try:
-            ff = open(fname, 'w')
+            ff = open(fname, 'w', encoding='utf-8')
             file_open(fname)
         except OSError as err:
             msg_box("OS error: {0}".format(err), MB_OK)
