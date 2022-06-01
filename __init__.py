@@ -9,7 +9,7 @@ from datetime import datetime as dt
 from cudax_lib import get_translation
 _ = get_translation(__file__)  # I18N
 
-PATH = os.path.join(app_path(APP_DIR_DATA), 'scratches') + os.sep
+PATH = os.path.join(app_path(APP_DIR_DATA), 'scratches')
 
 def convert_size(size_bytes):
     size_bytes = int(size_bytes)
@@ -38,11 +38,11 @@ def get_files_list(self):
 
 class Command:
     def __init__(self):
-        if (not os.path.exists(PATH)):
+        if not os.path.isdir(PATH):
             try:
                 os.mkdir(PATH)
             except OSError as err:
-                msg_box("Cannot create dir 'data/scratches', OS error: {0}".format(err), MB_OK+MB_ICONERROR)
+                msg_box(_("Cannot create folder 'data/scratches', OS error: {0}").format(err), MB_OK+MB_ICONERROR)
                 raise
 
     def get_w_h(self):
@@ -68,20 +68,20 @@ class Command:
         else:
             ext = prop.get('typ')[0]
 
-        def getFname(i):
-            return PATH + 'scratch_' + str(i) + '.' + ext
+        def get_f_name(i):
+            return os.path.join(PATH, 'scratch_' + str(i) + '.' + ext)
 
         i = 1
-        fname = getFname(i)
-        while (os.path.exists(fname)):
-            i = i + 1
-            fname = getFname(i)
+        fname = get_f_name(i)
+        while os.path.isfile(fname):
+            i += 1
+            fname = get_f_name(i)
 
         try:
             ff = open(fname, 'w', encoding='utf-8')
             file_open(fname)
         except OSError as err:
-            msg_box("OS error: {0}".format(err), MB_OK)
+            msg_box(_("OS error: {0}").format(err), MB_OK)
             raise
 
     def list(self):
