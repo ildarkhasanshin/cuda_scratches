@@ -7,16 +7,16 @@ homepage=https://github.com/ildarkhasanshin/cuda_scratches
 
 [item1]
 section=commands
-caption=&Scratches\&New
+caption=Scratches\&New
 method=new
 hotkey=Shift+Ctrl+Alt+Ins
 
 [item2]
 section=commands
-caption=&Scratches\&List
+caption=Scratches\&List
 method=list
 
 [item3]
 section=commands
-caption=&Scratches\&Remove
+caption=Scratches\&Remove
 method=remove
