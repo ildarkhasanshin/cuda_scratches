@@ -32,7 +32,7 @@ def get_files_list(self):
             for i in range(4):
                 preview = preview + ' ' + f.readline()
         preview = preview.replace("\n", '', 5)
-        items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(getctime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
+        items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(os.path.getmtime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
 
     return items, items_
 
