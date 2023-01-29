@@ -1,3 +1,5 @@
+2023.01.29
+- fix: slowed down when the first one in the file is too long
 
 2022.06.01
 - fix: must skip all folders in the 'data/scratches' folder (by Alexey T.)
