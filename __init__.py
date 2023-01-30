@@ -27,11 +27,17 @@ def get_files_list(self):
     items_ = ''
     for item in items:
         preview = ''
+        line_count = sum(1 for line in open(item, 'r', encoding='utf-8'))
+        max_line_count = 5
+        max_line_len = 100
+        preview_count = line_count if line_count <= max_line_count else max_line_count
         with open(item, 'r', encoding='utf-8') as f:
             preview = f.readline()
-            for i in range(4):
+            if len(preview) > max_line_len:
+                preview = preview[0:max_line_len] + '... '
+            for i in range(preview_count - 1):
                 preview = preview + ' ' + f.readline()
-        preview = preview.replace("\n", '', 5)
+        preview = preview.replace("\n", '', preview_count)
         items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(os.path.getmtime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
 
     return items, items_
