@@ -23,21 +23,30 @@ def convert_size(size_bytes):
 
 def get_files_list(self):
     items = sorted([os.path.join(PATH, i) for i in os.listdir(PATH)], key = os.path.getmtime, reverse = True)
-    items = [i for i in items if os.path.isfile(i)]
+    items = [i for i in items if os.path.isfile(i) and os.path.getsize(i) != 0]
     items_ = ''
     for item in items:
         preview = ''
         line_count = sum(1 for line in open(item, 'r', encoding='utf-8'))
-        max_line_count = 5
-        max_line_len = 100
-        preview_count = line_count if line_count <= max_line_count else max_line_count
+        max_line_count = 20
+        max_line_len = 140
+        preview_count = min(line_count, max_line_count)
         with open(item, 'r', encoding='utf-8') as f:
-            preview = f.readline()
+            preview = f.readline().strip()
             if len(preview) > max_line_len:
-                preview = preview[0:max_line_len] + '... '
-            for i in range(preview_count - 1):
-                preview = preview + ' ' + f.readline()
-        preview = preview.replace("\n", '', preview_count)
+                preview = preview[0:max_line_len] + '...'
+            else:
+                for i in range(preview_count - 1):
+                    if len(preview) < max_line_len:
+                        readline = f.readline().strip()
+                        if readline:
+                            preview = preview + ' ' + readline
+                    else:
+                        break
+                if preview:
+                    preview = preview[0:max_line_len] + '...'
+        if preview:
+            preview = preview.replace("\n", '')
         items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(os.path.getmtime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
 
     return items, items_
