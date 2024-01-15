@@ -1,17 +1,20 @@
+2024.01.15
+[*] optimization for output list of scratches
+
 2023.01.29
-- fix: slowed down when the first one in the file is too long
+[*] slowed down when the first one in the file is too long
 
 2022.06.01
-- fix: must skip all folders in the 'data/scratches' folder (by Alexey T.)
+[*] must skip all folders in the 'data/scratches' folder (by Alexey T.)
 
 2022.05.27
-+ add: i18n (by Alexey T.)
+[+] i18n (by Alexey T.)
 
 2022.04.21
-+ add: dynamic window of results
+[+] dynamic window of results
 
 2022.02.06
-- some fixes
+[*] some fixes
 
 2022.02.04
 initial
