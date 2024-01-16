@@ -24,8 +24,17 @@ def convert_size(size_bytes):
 def get_files_list(self):
     items = sorted([os.path.join(PATH, i) for i in os.listdir(PATH)], key = os.path.getmtime, reverse = True)
     items = [i for i in items if os.path.isfile(i) and os.path.getsize(i) != 0]
+    items__ = []
+    for index, item in enumerate(items):
+        try:
+            line_count = sum(1 for line in open(item, 'r', encoding='utf-8'))
+            items__.append(item)
+        except Exception as e:
+            continue
+            #print('error: ', index, item, e)
+
     items_ = ''
-    for item in items:
+    for item in items__:
         preview = ''
         line_count = sum(1 for line in open(item, 'r', encoding='utf-8'))
         max_line_count = 20
@@ -49,7 +58,7 @@ def get_files_list(self):
             preview = preview.replace("\n", '')
         items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(os.path.getmtime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
 
-    return items, items_
+    return items__, items_
 
 class Command:
     def __init__(self):
