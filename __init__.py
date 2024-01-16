@@ -37,7 +37,7 @@ def get_files_list(self):
     for item in items__:
         preview = ''
         line_count = sum(1 for line in open(item, 'r', encoding='utf-8'))
-        max_line_count = 20
+        max_line_count = 50
         max_line_len = 140
         preview_count = min(line_count, max_line_count)
         with open(item, 'r', encoding='utf-8') as f:
@@ -53,7 +53,7 @@ def get_files_list(self):
                     else:
                         break
                 if preview:
-                    preview = preview[0:max_line_len] + '...'
+                    preview = preview[0:max_line_len] + '...' if len(preview) > max_line_len else preview[0:max_line_len]
         if preview:
             preview = preview.replace("\n", '')
         items_ = items_ + os.path.basename(item) + ' | ' + dt.fromtimestamp(os.path.getmtime(item)).strftime('%Y-%m-%d %H:%M:%S') + ' | ' + convert_size(os.path.getsize(item)) + "\t" + preview + "\n"
